@@ -30,14 +30,14 @@ function constrainRectTo(rect, container) {
     if (rect.width >= container.width) {
         rect.width = container.width;
     }
-    if (rect.height >= container.height) {
-        rect.height = container.height;
-    }
     if (rect.x <= container.x) {
         rect.x = container.x;
     }
     if (rect.x + rect.width > container.x + container.width) {
         rect.x = container.x + container.width - rect.width;
+    }
+    if (rect.height >= container.height) {
+        rect.height = container.height;
     }
     if (rect.y <= container.y) {
         rect.y = container.y;
@@ -147,7 +147,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             addToolTip(handle, name, cursor);
             handle.lineStyle(handleStrokeWidth, lineColor)
                 .beginFill(handleColor);
-            // handle.pivot.set(controlsSize / 2, controlsSize / 2);
+            handle.pivot.set(controlsSize / 2, controlsSize / 2);
             handle
                 .on("pointerdown", onHandleDown)
                 .on("pointermove", onHandleMove)
@@ -312,7 +312,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
          * Add that angle to the object's start rotation
          */
         this.rotateTool = createHandle('Rotate', 'pointer');
-        this.rotateTool.drawEllipse(0, 0, controlsSize/2, controlsSize/2);
+        this.rotateTool.drawEllipse(controlsSize/2, controlsSize/2, controlsSize/2, controlsSize/2);
         this.rotateTool
             .on("pointerdown", onRotateToolDown)
             .on("pointermove", onRotateToolMove);
@@ -353,7 +353,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
 
         // copy object translation/transformation
         this.target = target;
-        var bounds = target.getBounds();
+        var bounds = target.getLocalBounds();
         this.width = bounds.width;
         this.height = bounds.height;
         this.scale.x = target.scale.x;
@@ -361,10 +361,6 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         this.x = target.x;
         this.y = target.y;
         this.rotation = target.rotation;
-
-        // respect registration point of target
-        // this.regX = (-this.width / 2 ) + target.regX;
-        // this.regY = (-this.height / 2)  + target.regY;
 
         // borders
         this.border.clear();
