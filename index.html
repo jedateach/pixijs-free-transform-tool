@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Pixi.js Free Transform Tool</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+        <link rel="stylesheet" href="demo/spectre.min.css">
+        <style>
+            body {
+                background: -webkit-linear-gradient(to bottom, #fffcdc, #d9a7c7);
+                background: linear-gradient(to bottom, #fffcdc, #d9a7c7);
+
+            }
+            #Designer {
+                border: 2px solid #fff;
+                background-color: rgba(255, 255, 255, 0.5);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div id="CanvasContainer" class="column col-10 col-mx-auto mt-2 mb-2">
+                <h2>Pixi.js Free Transform Tool</h2>
+                <p>Select one of the display objects to show the controls for transforming it.</p>
+                <canvas id="Designer" width="500" height="400"></canvas>
+            </div>
+        </div>
+        <script src="demo/pixi.js"></script>
+        <script src="demo/pixi-legacy.js"></script>
+        <script src="pixijs.util.FreeTransformTool.js"></script>
+        <script src="demo/demo.js"></script>
+    </body>
+</html>

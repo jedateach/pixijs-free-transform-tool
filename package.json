@@ -1,0 +1,22 @@
+{
+  "name": "pixijs-free-transform-tool",
+  "version": "1.0.0",
+  "description": "Provides ability to free transform Pixi Display Objects",
+  "main": "pixijs.util.FreeTransformTool.js",
+  "scripts": {
+    "start": "http-server ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jedateach/createjs-free-transform-tool.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jedateach/createjs-free-transform-tool/issues"
+  },
+  "homepage": "https://github.com/jedateach/createjs-free-transform-tool#readme",
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  }
+}
