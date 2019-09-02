@@ -108,7 +108,7 @@ function init() {
 	ellipse.scale.set(1.5, 1);
 
 	// Bitmap
-	const texture = PIXI.Texture.from('demo/daisy.png');
+	const texture = PIXI.Texture.from('demo/flower.svg');
 	const bitmap = new PIXI.Sprite(texture);
 	bitmap.position.set(canvas.width / 2, canvas.height / 6);
 	bitmap.anchor.set(0.5);
