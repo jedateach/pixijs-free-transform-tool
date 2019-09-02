@@ -138,6 +138,14 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             this.dragging = false;
         }
 
+        function handleHandleEvents(handle) {
+            handle
+                .on("pointerdown", onHandleDown)
+                .on("pointermove", onHandleMove)
+                .on("pointerup", onHandleUp)
+                .on("pointerupoutside", onHandleUp);
+        }
+
         // create a transform control handle
         var handleStrokeWidth = this.controlStrokeThickness;
         function createHandle(name, cursor) {
@@ -148,11 +156,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             handle.lineStyle(handleStrokeWidth, lineColor)
                 .beginFill(handleColor);
             handle.pivot.set(controlsSize / 2, controlsSize / 2);
-            handle
-                .on("pointerdown", onHandleDown)
-                .on("pointermove", onHandleMove)
-                .on("pointerup", onHandleUp)
-                .on("pointerupoutside", onHandleUp);
+            handleHandleEvents(handle);
             return handle;
         }
 
@@ -169,6 +173,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             .on('pointermove', onMoveHandleMove)
             .on('pointerup', onMoveHandleUp)
             .on('pointerupoutside', onMoveHandleUp);
+        handleHandleEvents(this.moveHandle);
         this.moveHandle.hitArea = new PIXI.Rectangle();
         this.addChild(this.moveHandle);
 
