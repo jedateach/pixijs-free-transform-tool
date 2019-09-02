@@ -1,6 +1,6 @@
 (function(){
 
-var canvas, stage;
+var canvas, app, stage;
 
 var boundary;
 var boundaryLine;
@@ -9,10 +9,38 @@ var selectTool;
 
 var container;
 
+// Resize function window
+function resize() {
+	const parent = app.view.parentNode;
+	app.renderer.resize(parent.clientWidth, parent.clientHeight);
+	updateBoundary(boundary);
+}
+
+function updateBoundary(boundary) {
+	var top = canvas.height * 0.1;
+	var left = canvas.width * 0.1;
+	var padding = Math.min(top, left);
+	boundary.x = padding;
+	boundary.y = padding;
+	boundary.width = canvas.width - padding * 2;
+	boundary.height = canvas.height - padding * 2;
+
+	drawBoundaryLine();
+}
+
+function drawBoundaryLine() {
+	boundaryLine.clear();
+	boundaryLine.lineWidth = 1;
+	boundaryLine.lineColor = "#000";
+	boundaryLine
+		.lineStyle(2, 0x000000, 1)
+		.drawRect(boundary.x, boundary.y, boundary.width, boundary.height);
+}
+
 function init() {
 	canvas = document.getElementById("Designer");
 
-	const app = new PIXI.Application({
+	app = new PIXI.Application({
 		width: 800, height: 600,
 		transparent: true,
 		resolution: 1,
@@ -20,16 +48,9 @@ function init() {
 	});
 	stage = app.stage;
 
-	// Resize function window
-	function resize() {
-		const parent = app.view.parentNode;
-		app.renderer.resize(parent.clientWidth, parent.clientHeight);
-	}
 
 	// Listen for window resize events
 	window.addEventListener('resize', resize);
-
-	resize();
 
 
 	// set up free transform tool
@@ -39,35 +60,17 @@ function init() {
 
 	// define boundary
 	boundary = new PIXI.Rectangle();
-	// updateBoundary(boundary);
 	boundaryLine = new PIXI.Graphics();
 	top.addChild(boundaryLine);
+
+	updateBoundary(boundary);
 
 	let controlsSize = 10 * window.devicePixelRatio;
 	selectTool = new PIXI.util.FreeTransformTool(0x005577, true, null, controlsSize, boundary);
 	selectTool.name = "transform";
 
 	top.addChild(selectTool);
-
-	function updateBoundary(boundary) {
-		var top = canvas.height * 0.1;
-		var left = canvas.width * 0.1;
-		var padding = Math.min(top, left);
-		boundary.x = padding;
-		boundary.y = padding;
-		boundary.width = canvas.width - padding * 2;
-		boundary.height = canvas.height - padding * 2;
-	}
-
-	function drawBoundary() {
-		boundaryLine.clear();
-		boundaryLine.lineWidth = 1;
-		boundaryLine.lineColor = "#000";
-		boundaryLine
-			.lineStyle(2, 0x000000, 1)
-			.drawRect(boundary.x, boundary.y, boundary.width, boundary.height);
-	}
-
+	
 	function clickToSelect(obj) {
 		obj.interactive = true;
 		obj.cursor = "pointer";
@@ -138,6 +141,7 @@ function init() {
 	
 	// TODO: add a container of shapes
 
+	resize();
 }
 
 init();
