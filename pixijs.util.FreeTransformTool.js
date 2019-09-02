@@ -179,13 +179,11 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
 
         function onMoveHandleDown(downEvent) {
             if (that.target && !this.dragging) {
-                this.globalStart = downEvent.data.global.clone();
-                this.dragOffset = new PIXI.Point(
-                    that.target.x - this.globalStart.x,
-                    that.target.y - this.globalStart.y
-                );
+                this.targetStart = that.target.position.clone();
+                this.downGlobal = downEvent.data.global.clone();
                 this.dragDistance = 0;
                 this.dragging = true;
+                this.startBounds = that.target.getBounds();
             }
         }
 
@@ -193,10 +191,28 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             if (!this.dragging) {
                 return;
             }
-            // TODO: constrain to boundary
-            that.target.x = moveEvent.data.global.x + this.dragOffset.x;
-            that.target.y = moveEvent.data.global.y + this.dragOffset.y;
-            this.dragDistance = calcDistance(moveEvent.data.global, this.globalStart);
+            var moveDelta = new PIXI.Point(
+                moveEvent.data.global.x - this.downGlobal.x,
+                moveEvent.data.global.y - this.downGlobal.y
+            );
+            if (that.boundary && this.startBounds) {
+                let newBounds = new PIXI.Rectangle(
+                    moveDelta.x + this.startBounds.x,
+                    moveDelta.y + this.startBounds.y,
+                    this.startBounds.width,
+                    this.startBounds.height
+                );
+                var constrainedBounds = constrainRectTo(newBounds, that.boundary);
+                moveDelta.set(
+                    constrainedBounds.x - this.startBounds.x,
+                    constrainedBounds.y - this.startBounds.y
+                );
+            }
+            that.target.position.set(
+                this.targetStart.x + moveDelta.x,
+                this.targetStart.y + moveDelta.y
+            );
+            this.dragDistance = calcDistance(moveEvent.data.global, this.downGlobal);
             that.update();
         };
 
@@ -204,7 +220,8 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             upEvent.stopPropagation();
             if(this.dragging) {
                 that.alpha = 1;
-                this.data = null;
+                this.downGlobal = null;
+                this.targetStart = null;
                 this.dragging = false;
             
                 // only deselect if there was very little movement on click
