@@ -96,16 +96,17 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         // default values
         lineColor = lineColor || 0x4285F4;
         handleColor = handleColor || 0xffffff;
-        handleOpacity = 0.8;
+        handleOpacity = 0.7;
         controlsSize = controlsSize || 10;
 
-        this.controlsDim = 0.55;
+        this.controlsDim = 0.05;
         this.controlStrokeThickness = 1;
-        this.visible = false;
         this.movedThreshold = 10;
     
         this.dashed = dashed === undefined ? true : dashed;
         this.boundary = boundary === undefined ? null : boundary;
+
+        this.visible = false;
 
         var that = this;
 
