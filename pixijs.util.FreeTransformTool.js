@@ -101,7 +101,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         lineColor = lineColor || 0x4285F4;
         handleColor = handleColor || 0xffffff;
         handleOpacity = 0.7;
-        controlsSize = controlsSize || 10;
+        this.controlsSize = controlsSize || 10;
 
         this.controlsDim = 0.05;
         this.controlStrokeThickness = 1;
@@ -160,7 +160,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             addToolTip(handle, name, cursor);
             handle.lineStyle(handleStrokeWidth, lineColor)
                 .beginFill(handleColor);
-            handle.pivot.set(controlsSize / 2, controlsSize / 2);
+            handle.pivot.set(that.controlsSize / 2, that.controlsSize / 2);
             handleHandleEvents(handle);
             return handle;
         }
@@ -241,7 +241,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
 
         // init hScale tool
         this.hScaleHandle = createHandle('Stretch', 'e-resize');
-        this.hScaleHandle.drawRect(0, 0, controlsSize, controlsSize);
+        this.hScaleHandle.drawRect(0, 0, this.controlsSize, this.controlsSize);
         this.hScaleHandle
             .on("pointerdown", onHScaleToolDown)
             .on("pointermove", onHScaleToolMove);
@@ -265,7 +265,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
 
         // init vScale tool
         this.vScaleHandle = createHandle('Stretch', 's-resize');
-        this.vScaleHandle.drawRect(0, 0, controlsSize, controlsSize);
+        this.vScaleHandle.drawRect(0, 0, this.controlsSize, this.controlsSize);
         this.vScaleHandle
             .on("pointerdown", onVScaleToolDown)
             .on("pointermove", onVScaleToolMove);
@@ -294,7 +294,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
          * registration point
          */
         this.scaleHandle = createHandle('Resize', 'se-resize');
-        this.scaleHandle.drawRect(0, 0, controlsSize, controlsSize);
+        this.scaleHandle.drawRect(0, 0, this.controlsSize, this.controlsSize);
         this.scaleHandle
             .on("pointerdown", onScaleToolDown)
             .on("pointermove", onScaleToolMove)
@@ -339,7 +339,10 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
          * Add that angle to the object's start rotation
          */
         this.rotateTool = createHandle('Rotate', 'pointer');
-        this.rotateTool.drawEllipse(controlsSize/2, controlsSize/2, controlsSize/2, controlsSize/2);
+        this.rotateTool.drawEllipse(
+            this.controlsSize / 2, this.controlsSize / 2,
+            this.controlsSize / 2, this.controlsSize / 2
+        );
         this.rotateTool
             .on("pointerdown", onRotateToolDown)
             .on("pointermove", onRotateToolMove);
