@@ -26,24 +26,28 @@ this.PIXI.util.calcDistance = calcDistance;
  * @param {PIXI.Rectangle} rect 
  * @param {PIXI.Rectangle} container 
  */
-function constrainRectTo(rect, container) {
+function constrainRectTo(rect, container, debug) {
     if (rect.width >= container.width) {
         rect.width = container.width;
+        if (debug) { console.log("constraining width to", rect.width); }
     }
     if (rect.x <= container.x) {
         rect.x = container.x;
-    }
-    if (rect.x + rect.width > container.x + container.width) {
+        if (debug) { console.log("constraining x left at", rect.x); }
+    } else if (rect.x + rect.width > container.x + container.width) {
         rect.x = container.x + container.width - rect.width;
+        if (debug) { console.log("constraining x right at", rect.x + rect.width); }
     }
     if (rect.height >= container.height) {
         rect.height = container.height;
+        if (debug) { console.log("constraining height to", rect.height); }
     }
     if (rect.y <= container.y) {
         rect.y = container.y;
-    }
-    if (rect.y + rect.height > container.y + container.height) {
+        if (debug) { console.log("constraining y top to", rect.y); }
+    } else if (rect.y + rect.height > container.y + container.height) {
         rect.y = container.y + container.height - rect.height;
+        if (debug) { console.log("constraining y bottom to", rect.y + rect.height); }
     }
     return rect;
 };
