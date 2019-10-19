@@ -320,8 +320,9 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         function onScaleToolDown(downEvent) {
             this.downGlobalPosition = downEvent.data.global.clone();
             this.startScale = that.target.scale.clone();
-
-            this.resolutionStart = that.target.resolution
+            this.resolutionStart = that.target.resolution;
+            this.targetStart = that.target.position.clone();
+            this.startBounds = that.target.getBounds();
         }
 
         function onScaleToolMove(moveEvent) {
@@ -331,6 +332,33 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             var distStart = calcDistance(this.downGlobalPosition, that.target.position);
             var distEnd = calcDistance(moveEvent.data.global, that.target.position);
             this.rescaleFactor = distEnd / distStart;
+
+            if (that.boundary && this.startBounds) {
+
+                let boundsAnchor = {
+                    x: that.target.anchor.x * this.startBounds.width,
+                    y: that.target.anchor.y * this.startBounds.height
+                }
+
+                let bounds = new PIXI.Rectangle(
+                    this.startBounds.x - (boundsAnchor.x * this.rescaleFactor) + boundsAnchor.x,
+                    this.startBounds.y - (boundsAnchor.y * this.rescaleFactor) + boundsAnchor.y,
+                    this.startBounds.width * this.rescaleFactor,
+                    this.startBounds.height * this.rescaleFactor
+                );
+                // TODO: don't adjust position if at max width
+                var constrainedBounds = constrainRectTo(bounds.clone(), that.boundary, true);
+                var boundsPositionDelta = {
+                    x: bounds.x - constrainedBounds.x,
+                    y: bounds.y - constrainedBounds.y
+                }
+                this.rescaleFactor = Math.min(
+                    constrainedBounds.width / this.startBounds.width,
+                    constrainedBounds.height / this.startBounds.height
+                );
+                that.target.position.x = this.targetStart.x - boundsPositionDelta.x;
+                that.target.position.y = this.targetStart.y - boundsPositionDelta.y;
+            }
             that.target.scale.x = this.startScale.x * this.rescaleFactor;
             that.target.scale.y = this.startScale.y * this.rescaleFactor;
             
