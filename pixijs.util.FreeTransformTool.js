@@ -54,21 +54,33 @@ function constrainRectTo(rect, container, debug) {
 this.PIXI.util.constrainRectTo = constrainRectTo;
 
 // constrains a display object to a given rect
-function constrainObjectTo(obj, rect) {
+function constrainObjectTo(obj, container) {
     var bounds = obj.getBounds();
-    bounds.x = obj.x - (obj.regX * obj.scale.x);
-    bounds.y = obj.y - (obj.regY * obj.scale.y);
-    var constrained = new PIXI.Rectangle(bounds.x, bounds.y, bounds.width, bounds.height);
-    constrainRectTo(constrained, rect);
-    obj.x = constrained.x + (obj.regX * obj.scale.x);
-    obj.y = constrained.y + (obj.regY * obj.scale.y);
-    // TODO: work out new scale to apply, rather than overlapping
-    var newScale = {
-        x: constrained.width / bounds.width,
-        y: constrained.height / bounds.height
+    // bounds.x = obj.x - (obj.regX * obj.scale.x);
+    // bounds.y = obj.y - (obj.regY * obj.scale.y);
+    var constrained = new PIXI.Rectangle(
+        bounds.x, bounds.y,
+        bounds.width, bounds.height
+    );
+    constrainRectTo(constrained, container);
+    var delta = {
+        x: bounds.x - constrained.x,
+        y: bounds.y - constrained.y
     }
-    obj.scale.x *= newScale.x;
-    obj.scale.y *= newScale.y;
+
+    // TODO: work out new scale to apply, rather than overlapping
+    var newScale = Math.min(
+        constrained.width / bounds.width,
+        constrained.height / bounds.height
+    );
+
+    obj.x = (obj.x - delta.x);
+    obj.y = (obj.y - delta.y);
+    // obj.x = obj.position.x + delta.x;
+    // obj.y = obj.position.y + delta.y;
+    obj.scale.x *= newScale;
+    obj.scale.y *= newScale;
+    
 };
 this.PIXI.util.constrainObjectTo = constrainObjectTo;
 
@@ -214,17 +226,14 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
                     this.startBounds.height
                 );
                 var constrainedBounds = constrainRectTo(newBounds, that.boundary);
-                moveDelta.set(
-                    constrainedBounds.x - this.startBounds.x,
-                    constrainedBounds.y - this.startBounds.y
-                );
+                moveDelta.x = constrainedBounds.x - this.startBounds.x;
+                moveDelta.y = constrainedBounds.y - this.startBounds.y;
             }
-            that.target.position.set(
-                this.targetStart.x + moveDelta.x,
-                this.targetStart.y + moveDelta.y
-            );
+            that.target.position.x = this.targetStart.x + moveDelta.x;
+            that.target.position.y = this.targetStart.y + moveDelta.y;
             this.dragDistance = calcDistance(moveEvent.data.global, this.downGlobal);
             that.update();
+            moveEvent.stopPropagation();
         };
 
         function onMoveHandleUp(upEvent) {
