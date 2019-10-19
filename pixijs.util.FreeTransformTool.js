@@ -398,6 +398,23 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         this.y = target.y;
         this.rotation = target.rotation;
 
+        var anchor;
+        if (target.anchor) {
+            anchor = target.anchor;
+        } else if (target.pivot) {
+            anchor = new PIXI.Point(
+                0.5 + target.pivot.x / target.width,
+                0.5 + target.pivot.y / target.height
+            );
+        } else {
+            anchor = new PIXI.Point(0.5, 0.5);
+        }
+
+        target.anchor = anchor;
+
+        this.left = -bounds.width * anchor.x;
+        this.top = -bounds.height * anchor.y;
+        this.bottom = bounds.height * (1 - anchor.y);
         this.right = bounds.width * (1 - anchor.x);
 
         // anchor mark
@@ -415,51 +432,52 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         // }
         this.border
             .lineStyle(this.controlStrokeThickness / this.scale.y)
-            .moveTo(-bounds.width / 2, -bounds.height / 2)
-            .lineTo(bounds.width / 2, -bounds.height / 2)
-            .moveTo(bounds.width / 2, bounds.height / 2)
-            .lineTo(-bounds.width / 2, bounds.height / 2);
+            .moveTo(this.left, this.top)
+            .lineTo(this.right, this.top)
+            .moveTo(this.right, this.bottom)
+            .lineTo(this.left, this.bottom);
         // if(this.dashed) {
         //     this.border.setStrokeDash([5 / this.scale.y, 5 / this.scale.y], 0);
         // }    
         this.border
             .lineStyle(this.controlStrokeThickness / this.scale.x)
-            .moveTo(-bounds.width / 2, -bounds.height / 2)
-            .lineTo( -bounds.width / 2, bounds.height / 2)
-            .moveTo(bounds.width / 2, bounds.height / 2)
-            .lineTo( bounds.width / 2, -bounds.height / 2);
+            .moveTo(this.left, this.top)
+            .lineTo(this.left, this.bottom)
+            .moveTo(this.right, this.bottom)
+            .lineTo( this.right, this.top);
 
         // tools size should stay consistent
         var toolScaleX = 1 / this.scale.x;
         var toolScaleY = 1 / this.scale.y;
 
         // draw move hit area
-        this.moveHandle.hitArea.x = -bounds.width / 2;
-        this.moveHandle.hitArea.y =  -bounds.height / 2;
+        this.moveHandle.hitArea.x = this.left;
+        this.moveHandle.hitArea.y =  this.top;
+
         this.moveHandle.hitArea.width = bounds.width
         this.moveHandle.hitArea.height = bounds.height;
 
         // scale tool (bottom right)
-        this.scaleHandle.x = bounds.width / 2;
-        this.scaleHandle.y = bounds.height / 2;
+        this.scaleHandle.x = this.right;
+        this.scaleHandle.y = this.bottom;
         this.scaleHandle.scale.x = toolScaleX;
         this.scaleHandle.scale.y = toolScaleY;
 
         // hScale tool (right edge)
-        this.hScaleHandle.x = bounds.width / 2;
-        this.hScaleHandle.y = 0;
+        this.hScaleHandle.x = this.right;
+        this.hScaleHandle.y = this.top + bounds.height / 2;
         this.hScaleHandle.scale.x = toolScaleX;
         this.hScaleHandle.scale.y = toolScaleY;
 
         // vScale tool (bottom edge)
-        this.vScaleHandle.x = 0;
-        this.vScaleHandle.y = bounds.height / 2;
+        this.vScaleHandle.x = this.left + bounds.width / 2;
+        this.vScaleHandle.y = this.bottom;
         this.vScaleHandle.scale.x = toolScaleX;
         this.vScaleHandle.scale.y = toolScaleY;
 
         // rotate tool
-        this.rotateTool.x = bounds.width/2;
-        this.rotateTool.y = -bounds.height/2;
+        this.rotateTool.x = this.right;
+        this.rotateTool.y = this.top;
         this.rotateTool.scale.x = toolScaleX;
         this.rotateTool.scale.y = toolScaleY;
 
