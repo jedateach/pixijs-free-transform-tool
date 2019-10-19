@@ -92,6 +92,8 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
     p.dashed = null;
     p.boundary = null;
 
+    p.anchorMark = null;
+
     // constructor:
     // copy before override
     p.Container_initialize = p.initialize;
@@ -164,6 +166,10 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             handleHandleEvents(handle);
             return handle;
         }
+
+        this.anchorMark = new PIXI.Graphics();
+        this.anchorMark.alpha = handleOpacity;
+        this.addChild(this.anchorMark);
 
         /**
          * Move tool
@@ -391,6 +397,16 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         this.x = target.x;
         this.y = target.y;
         this.rotation = target.rotation;
+
+        this.right = bounds.width * (1 - anchor.x);
+
+        // anchor mark
+        this.anchorMark.clear()
+            .beginFill(0x333)
+            .drawStar(0, 0, 4, this.controlsSize*0.8, this.controlsSize * 0.1);
+        this.anchorMark.scale.x = 1 / this.scale.x;
+        this.anchorMark.scale.y = 1 / this.scale.y;
+        this.anchorMark.rotation = -this.rotation;
 
         // borders
         this.border.clear();
