@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jedateach/createjs-free-transform-tool.git"
+    "url": "git+https://github.com/jedateach/pixijs-free-transform-tool.git"
   },
-  "author": "",
+  "author": "Jeremy Shipman",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jedateach/createjs-free-transform-tool/issues"
+    "url": "https://github.com/jedateach/pixijs-free-transform-tool/issues"
   },
-  "homepage": "https://github.com/jedateach/createjs-free-transform-tool#readme",
+  "homepage": "https://jedateach.github.io/createjs-free-transform-tool",
   "devDependencies": {
     "http-server": "^0.11.1"
   }
