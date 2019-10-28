@@ -57,6 +57,7 @@ function init() {
 	app = new PIXI.Application({
 		width: 800, height: 600,
 		transparent: true,
+		antialias: true,
 		resolution: 1,
 		view: canvas
 	});
