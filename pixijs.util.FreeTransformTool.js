@@ -66,7 +66,7 @@ function constrainObjectTo(obj, container) {
     var delta = {
         x: bounds.x - constrained.x,
         y: bounds.y - constrained.y
-    }
+    };
 
     // TODO: work out new scale to apply, rather than overlapping
     var newScale = Math.min(
@@ -338,7 +338,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
                 let boundsAnchor = {
                     x: that.target.anchor.x * this.startBounds.width,
                     y: that.target.anchor.y * this.startBounds.height
-                }
+                };
 
                 let bounds = new PIXI.Rectangle(
                     this.startBounds.x - (boundsAnchor.x * this.rescaleFactor) + boundsAnchor.x,
@@ -351,7 +351,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
                 var boundsPositionDelta = {
                     x: bounds.x - constrainedBounds.x,
                     y: bounds.y - constrainedBounds.y
-                }
+                };
                 this.rescaleFactor = Math.min(
                     constrainedBounds.width / this.startBounds.width,
                     constrainedBounds.height / this.startBounds.height
@@ -491,7 +491,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         this.moveHandle.hitArea.x = this.left;
         this.moveHandle.hitArea.y =  this.top;
 
-        this.moveHandle.hitArea.width = bounds.width
+        this.moveHandle.hitArea.width = bounds.width;
         this.moveHandle.hitArea.height = bounds.height;
 
         // scale tool (bottom right)
