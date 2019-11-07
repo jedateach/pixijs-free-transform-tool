@@ -7,17 +7,17 @@ this.PIXI.util = this.PIXI.util || {};
 // helpers
 function calcAngleDegrees(x, y) {
     return calcAngleRadians(x, y) * 180 / Math.PI;
-};
+}
 this.PIXI.util.calcAngleDegrees = calcAngleDegrees;
 
 function calcAngleRadians(x, y) {
     return Math.atan2(y, x);
-};
+}
 this.PIXI.util.calcAngleRadians = calcAngleRadians;
 
 function calcDistance(a, b) {
     return Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
-};
+}
 this.PIXI.util.calcDistance = calcDistance;
 
 /**
@@ -50,7 +50,7 @@ function constrainRectTo(rect, container, debug) {
         if (debug) { console.log("constraining y bottom to", rect.y + rect.height); }
     }
     return rect;
-};
+}
 this.PIXI.util.constrainRectTo = constrainRectTo;
 
 // constrains a display object to a given rect
@@ -66,7 +66,7 @@ function constrainObjectTo(obj, container) {
     var delta = {
         x: bounds.x - constrained.x,
         y: bounds.y - constrained.y
-    }
+    };
 
     // TODO: work out new scale to apply, rather than overlapping
     var newScale = Math.min(
@@ -81,7 +81,7 @@ function constrainObjectTo(obj, container) {
     obj.scale.x *= newScale;
     obj.scale.y *= newScale;
     
-};
+}
 this.PIXI.util.constrainObjectTo = constrainObjectTo;
 
 // // class
@@ -234,7 +234,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             this.dragDistance = calcDistance(moveEvent.data.global, this.downGlobal);
             that.update();
             moveEvent.stopPropagation();
-        };
+        }
 
         function onMoveHandleUp(upEvent) {
             upEvent.stopPropagation();
@@ -252,7 +252,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
                 }
             }
 
-        };
+        }
 
         // init hScale tool
         this.hScaleHandle = createHandle('Stretch', 'e-resize');
@@ -338,7 +338,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
                 let boundsAnchor = {
                     x: that.target.anchor.x * this.startBounds.width,
                     y: that.target.anchor.y * this.startBounds.height
-                }
+                };
 
                 let bounds = new PIXI.Rectangle(
                     this.startBounds.x - (boundsAnchor.x * this.rescaleFactor) + boundsAnchor.x,
@@ -351,7 +351,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
                 var boundsPositionDelta = {
                     x: bounds.x - constrainedBounds.x,
                     y: bounds.y - constrainedBounds.y
-                }
+                };
                 this.rescaleFactor = Math.min(
                     constrainedBounds.width / this.startBounds.width,
                     constrainedBounds.height / this.startBounds.height
@@ -491,7 +491,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         this.moveHandle.hitArea.x = this.left;
         this.moveHandle.hitArea.y =  this.top;
 
-        this.moveHandle.hitArea.width = bounds.width
+        this.moveHandle.hitArea.width = bounds.width;
         this.moveHandle.hitArea.height = bounds.height;
 
         // scale tool (bottom right)
