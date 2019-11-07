@@ -114,7 +114,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         // default values
         lineColor = lineColor || 0x4285F4;
         handleColor = handleColor || 0xffffff;
-        handleOpacity = 0.7;
+        this.handleOpacity = 0.7;
         this.controlsSize = controlsSize || 10;
 
         this.controlsDim = 0.05;
@@ -170,7 +170,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         function createHandle(name, cursor) {
             var handle = new PIXI.Graphics();
             handle.interactive = true;
-            handle.alpha = handleOpacity;
+            handle.alpha = this.handleOpacity;
             addToolTip(handle, name, cursor);
             handle.lineStyle(handleStrokeWidth, lineColor)
                 .beginFill(handleColor);
@@ -180,7 +180,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         }
 
         this.anchorMark = new PIXI.Graphics();
-        this.anchorMark.alpha = handleOpacity;
+        this.anchorMark.alpha = this.handleOpacity;
         this.addChild(this.anchorMark);
 
         /**
